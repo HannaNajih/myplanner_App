@@ -1,75 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:todo/onboardingpages.dart';
+import 'package:todo/src/auth_screens/newpassword.dart';
+import 'package:todo/src/auth_screens/signin.dart';
+import 'package:todo/src/services/notification_sevices.dart';
+import 'package:todo/src/pages/home_page.dart';
+import 'package:todo/src/tab_bar.dart';
+import 'package:todo/src/widgets/theme.dart';
+import 'package:todo/src/services/theme_service.dart';
 
-import 'loginscreens/otpverify.dart';
-
-void main() {
-  runApp(OPTVerification());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'pageview ',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('page view '),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          PageView(
-            children: <Widget>[
-              Container(
-                color: Colors.orange,
-                child: Center(
-                    child: Text(
-                  'Page 1',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ),
-              Container(
-                color: Colors.blue,
-                child: Center(
-                    child: Text(
-                  'Page 2',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ),
-              Container(
-                color: Colors.green,
-                child: Center(
-                    child: Text(
-                  'Page 3',
-                  style: TextStyle(color: Colors.white),
-                )),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+void main() async {
+  runApp(OnBoardingScreen());
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotifyHelper notifyHelper = NotifyHelper();
+  NotifyHelper().initializeNotifications();
+  notifyHelper.requestIOSPermission();
+  //android pewesty ba dawakrdne permission nia boia hich configurationy nawet
+  notifyHelper.initializeNotifications();
 }

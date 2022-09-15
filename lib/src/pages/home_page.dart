@@ -1,0 +1,294 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:flutter/material.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:todo/src/models/task.dart';
+import 'package:todo/src/services/notification_sevices.dart';
+import 'package:todo/src/services/theme_service.dart';
+import 'package:todo/src/pages/add_task_page.dart';
+import 'package:todo/src/widgets/task_tile.dart';
+//import 'package:todo/src/controllers/task_controller.dart';
+import '../widgets/theme.dart';
+import 'notification_screen.dart';
+//import 'add_task_page.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+  final NotifyHelper notifyHelper = NotifyHelper();
+  @override
+  void initState() {
+    super.initState();
+
+    notifyHelper.requestIOSPermission();
+    //android pewesty ba dawakrdne permission nia boia hich configurationy nawet
+    notifyHelper.initializeNotifications();
+  }
+
+  DateTime _selectedDate = DateTime.now();
+  //final TaskController _taskController = Get.put(TaskController());
+  @override
+  Widget build(BuildContext context) {
+    NotifyHelper().initializeNotifications();
+    return GetMaterialApp(
+      home: Scaffold(
+        // appBar: _appbar(),
+        body: Column(
+          children: [
+            //lera butoni add krdny taskaka w barwar w rozhakai tedaya
+            Row(
+              children: [
+                _addTaskBar(),
+                const SizedBox(
+                  width: 100,
+                ),
+                Builder(
+                  builder: (context) => Center(
+                    child: TextButton(
+                      child: const Icon(Icons.add),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddTaskPage()),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            //lam widgetashyanda barwakai halldabzheren
+            _addDateBar(),
+            //lerash taskakanman pshan adat agar habn,agar nabn
+            ////containereky batal lagal nusenek ka pet ale task drwst bka
+            _showTasks(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  AppBar _appbar() {
+    return AppBar(
+      leading: IconButton(
+        onPressed: () {
+          ThemeService().switchTheme();
+          Get.back();
+        },
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: grayIconClr,
+          size: 24,
+        ),
+      ),
+      //am elevationa bo darkawtne appbarakaya wak away toze barz bwbetawa
+      //dropshadoweke la bashe xwarwa adate
+
+      elevation: 1,
+      backgroundColor: selectionWhiteColor,
+      // context.theme.backgroundColor,
+      title: Text(
+        'MyPlanner',
+        style: myplannerAppbar,
+      ),
+      actions: const [
+        SizedBox(
+          width: 20,
+        ),
+        CircleAvatar(
+          radius: 18,
+          //backgroundImage: AssetImage('assets/comment.png'),
+          backgroundColor: Globgreen,
+        ),
+      ],
+    );
+  }
+
+  _addTaskBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat.yMMMMd().format(DateTime.now()),
+                  style: typingTextStyle,
+                ),
+                Text(
+                  'Today',
+                  style: typingTextStyle,
+                )
+              ]),
+          const Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 10,
+              bottom: 10,
+            ),
+            child: Text('Add Task'),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            child: TextButton(
+              onPressed: () async {
+                //       // await Get.to(const AddTaskPage());
+                //       // _taskController.getTasks();
+                NotifyHelper().displayNotification(
+                    title: 'task added',
+                    body: 'this is body for your notification');
+                //       // NotifyHelper().scheduleNotification();
+                //       // debugPrint('hello');
+              },
+              child: const Icon(
+                Icons.add,
+                color: grayIconClr,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _addDateBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 20, top: 6),
+      child: DatePicker(
+        _selectedDate,
+        height: 100,
+        width: 80,
+        initialSelectedDate: DateTime.now(),
+        dayTextStyle: GoogleFonts.nunitoSans(
+          fontSize: 10,
+          color: grayHintTxt,
+        ),
+        monthTextStyle: GoogleFonts.nunitoSans(
+          fontSize: 10,
+          color: grayHintTxt,
+        ),
+        dateTextStyle: GoogleFonts.nunitoSans(
+          fontSize: 20,
+          color: grayHintTxt,
+        ),
+        selectionColor: dateSlctGreen,
+        selectedTextColor: selectionWhiteColor,
+        onDateChange: (newDate) {
+          setState(() {
+            _selectedDate = newDate;
+          });
+        },
+      ),
+    );
+  }
+
+  _showTasks() {
+    return Expanded(
+        child: TaskTile(Task(
+            title: 'Title 1',
+            note: 'this is note',
+            color: 0,
+            isComplete: 0,
+            startTime: '01:13',
+            endTime: '01:30')));
+    // Obx(() {
+    //ama hi naw if akaia
+    //_taskController.taskList.isEmpty
+    // if (true) {
+    //   return _noTaskMsg();
+    // }
+    // else {
+    //   return Container(
+    //     height: 0,
+    //   );
+    // }
+    // }));
+  }
+
+  _noTaskMsg() {
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          duration: const Duration(milliseconds: 500),
+          child: SingleChildScrollView(
+              child: Wrap(
+            alignment: WrapAlignment.center,
+            // crossAxisAlignment: WrapCrossAlignment.center,
+            // direction: SizeConfig.orientation == Orientation.landscape
+            //     ? Axis.horizontal
+            //     : Axis.vertical,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              //pewesta hsabe boshayakan bkain la katekda
+              //appakaman ba bary pany w drezhe bakar yatbam shewaya
+              // SizeConfig.orientation == Orientation.landscape
+              //     ? const SizedBox(
+              //         height: 6,
+              //       )
+              //     : const SizedBox(
+              //         height: 220,
+              //       ),
+              const SizedBox(
+                height: 20,
+              ),
+              // SvgPicture.asset(
+              //   'assets/task.svg',
+              //   color: Globgreen.withOpacity(0.5),
+              //   height: 80,
+              //   semanticsLabel: 'Task',
+              // ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(
+                  'You Don\'t have any tasks yet!\n  to make your day more productive try to add some important tasks! ',
+                  style: typingTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          )),
+        )
+      ],
+    );
+  }
+
+  _builtBottomSheet(
+      {required String label,
+      required Function() onTap,
+      required Color clr,
+      bool isClose = false}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 4,
+      ),
+      height: 65,
+      width: 200,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2,
+          color: isClose
+              ? Get.isDarkMode
+                  ? Colors.grey[600]!
+                  : Colors.grey[300]!
+              : clr,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        color: isClose ? Colors.transparent : clr,
+      ),
+    );
+  }
+}
