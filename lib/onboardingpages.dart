@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:todo/src/auth_screens/signin.dart';
-import 'package:todo/src/auth_screens/signup.dart';
+
+import 'src/auth_screens/signin.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   Widget build(BuildContext context) {
-    return MaterialApp(home: OnBoardingScreen());
+    return const MaterialApp(home: OnBoardingScreen());
   }
 
   const OnBoardingScreen({

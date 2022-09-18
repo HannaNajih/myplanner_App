@@ -53,7 +53,7 @@ class TaskTile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text('data')
+                    const Text('data')
                   ],
                 ),
               ),

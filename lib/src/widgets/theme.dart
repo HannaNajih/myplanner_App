@@ -20,11 +20,13 @@ Color? iconCLRCA = Colors.green[200];
 //la naw course aakai udemy tyayaty chon zyady akai bo main.dart
 class CustomTheme {
   static final light = ThemeData(
+    // ignore: deprecated_member_use
     backgroundColor: backgroundpagecolor,
     primaryColor: Globgreen,
     brightness: Brightness.light,
   );
   static final dark = ThemeData(
+    // ignore: deprecated_member_use
     backgroundColor: backgroudthemedark,
     primaryColor: Globgreen,
     brightness: Brightness.dark,

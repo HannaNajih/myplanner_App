@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:todo/src/models/task.dart';
-import 'package:todo/src/services/notification_sevices.dart';
-import 'package:todo/src/services/theme_service.dart';
-import 'package:todo/src/pages/add_task_page.dart';
-import 'package:todo/src/widgets/task_tile.dart';
+import 'package:todo/src/controllers/task_controller.dart';
+
 //import 'package:todo/src/controllers/task_controller.dart';
+import '../models/task.dart';
+import '../services/notification_sevices.dart';
+import '../services/theme_service.dart';
+import '../widgets/task_tile.dart';
 import '../widgets/theme.dart';
-import 'notification_screen.dart';
 //import 'add_task_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final NotifyHelper notifyHelper = NotifyHelper();
+  // ignore: prefer_final_fields
+  TaskController _taskController = TaskController();
   @override
   void initState() {
     super.initState();
@@ -48,20 +50,24 @@ class HomePageState extends State<HomePage> {
               children: [
                 _addTaskBar(),
                 const SizedBox(
-                  width: 100,
+                  width: 10,
                 ),
-                Builder(
-                  builder: (context) => Center(
-                    child: TextButton(
-                      child: const Icon(Icons.add),
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddTaskPage()),
-                      ),
-                    ),
-                  ),
-                ),
+
+                // Container(
+                //   padding: EdgeInsets.all(9),
+                //   child: Builder(
+                //     builder: (context) => Center(
+                //       child: TextButton(
+                //         child: const Icon(Icons.add),
+                //         onPressed: () => Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) => const AddTaskPage()),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
 
@@ -76,6 +82,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  // ignore: unused_element
   AppBar _appbar() {
     return AppBar(
       leading: IconButton(
@@ -197,13 +204,46 @@ class HomePageState extends State<HomePage> {
 
   _showTasks() {
     return Expanded(
-        child: TaskTile(Task(
-            title: 'Title 1',
-            note: 'this is note',
-            color: 0,
-            isComplete: 0,
-            startTime: '01:13',
-            endTime: '01:30')));
+      child: ListView.builder(
+        itemBuilder: ((context, index) {
+          var task = _taskController.taskList[index];
+          return GestureDetector(
+            onTap: () {
+              showBottomSheet(context, task);
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              child: TaskTile(task),
+            ),
+          );
+        }),
+        itemCount: _taskController.taskList.length,
+      ),
+    );
+    // Expanded(
+    //     child: GestureDetector(
+    //   onTap: () {
+    //     showBottomSheet(
+    //         context,
+    //         Task(
+    //             title: 'Title 1',
+    //             note: 'this is note',
+    //             color: 0,
+    //             isComplete: 0,
+    //             startTime: '01:13',
+    //             endTime: '01:30'));
+    //   },
+    //   child: Container(
+    //     margin: EdgeInsets.all(10),
+    //     child: TaskTile(Task(
+    //         title: 'Title 1',
+    //         note: 'this is note',
+    //         color: 2,
+    //         isComplete: 0,
+    //         startTime: '01:13',
+    //         endTime: '01:30')),
+    //   ),
+    // ));
     // Obx(() {
     //ama hi naw if akaia
     //_taskController.taskList.isEmpty
@@ -218,6 +258,7 @@ class HomePageState extends State<HomePage> {
     // }));
   }
 
+  // ignore: unused_element
   _noTaskMsg() {
     return Stack(
       children: [
@@ -266,28 +307,95 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  showBottomSheet(BuildContext context, Task task) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.only(top: 4),
+        width: 200,
+        height: 300,
+        color: Colors.white,
+        child: Column(
+          children: [
+            Flexible(
+                child: Container(
+              padding: const EdgeInsets.only(top: 4),
+              height: 6,
+              width: 120,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.black),
+                  borderRadius: BorderRadius.circular(10)),
+            )),
+            const SizedBox(
+              height: 20,
+            ),
+            task.isComplete == 1
+                ? Container()
+                : _builtBottomSheet(
+                    label: 'task completed',
+                    onTapP: () {
+                      Get.back();
+                    },
+                    clr: Globgreen),
+            _builtBottomSheet(
+                label: 'Cancel Task',
+                onTapP: () {
+                  Get.back();
+                },
+                clr: Globgreen),
+            const Divider(
+              color: Colors.grey,
+            ),
+            _builtBottomSheet(
+                label: 'Delete Task',
+                onTapP: () {
+                  Get.back();
+                },
+                clr: Globgreen),
+            const SizedBox(
+              height: 20,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   _builtBottomSheet(
       {required String label,
-      required Function() onTap,
+      required Function() onTapP,
       required Color clr,
       bool isClose = false}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 4,
-      ),
-      height: 65,
-      width: 200,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: isClose
-              ? Get.isDarkMode
-                  ? Colors.grey[600]!
-                  : Colors.grey[300]!
-              : clr,
+    return GestureDetector(
+      onTap: onTapP,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 4,
         ),
-        borderRadius: BorderRadius.circular(20),
-        color: isClose ? Colors.transparent : clr,
+        height: 65,
+        width: 200,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: isClose
+                ? Get.isDarkMode
+                    ? Colors.grey[600]!
+                    : Colors.grey[300]!
+                : clr,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          color: isClose ? Colors.transparent : clr,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: isClose
+                ? typingTextStyle
+                :
+                //kate ka tyleki dyary krawman haya amanawe yakek la propertyakani bgoryn
+                //copyWith bakar ahenen
+                typingTextStyle.copyWith(color: Colors.white),
+          ),
+        ),
       ),
     );
   }

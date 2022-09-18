@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "794448243341",
+    "firebase_url": "https://myplanner-ef92f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "myplanner-ef92f",
+    "storage_bucket": "myplanner-ef92f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794448243341:android:7aa77a06bcc993d44fd0c4",
+        "android_client_info": {
+          "package_name": "com.example.myplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794448243341-7p38naa5dlmavpsi9rd000urdjqgn6fh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoSvzhMtO646I7kvlLtrkOkl-qje_wy2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794448243341-7p38naa5dlmavpsi9rd000urdjqgn6fh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

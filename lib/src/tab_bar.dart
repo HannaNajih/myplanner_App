@@ -7,6 +7,8 @@ import 'package:todo/src/widgets/theme.dart';
 class TabBarr extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
 
+  const TabBarr({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
