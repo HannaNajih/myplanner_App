@@ -5,7 +5,7 @@
 ### Getting Started
 --- 
 
- this application is for organizing yourself, planning your life, and scheduling your time to get more productive life, also setting your goals and your steps to achive them, the best part for this application is the remainders and motivational notifications you get from the application based on your data , also you can have account and choose your interesting color...TODO list for your daily routine and daily goal.
+ My Application is for organizing yourself, planning your life, and scheduling your time to get more productive life, also setting your goals and your steps to achive them, the best part for this application is the remainders and motivational notifications you get from the application based on your data , also you can have account and choose your interesting color...TODO list for your daily routine and daily, monthly, yearly...goals.
  
 
  ---
@@ -15,9 +15,9 @@
  --
  ## TODO :
 
-- creating account with phone numbber and password, verify your number, forget password, new password 
-- Non-sql database for storing and sortig and retrieve data, and authentication. 
-- designing the screens:( SignUp/ Sign In, Home, AddPlanner, Planner, Profile, onbourding pages...etc).
+- creating account with Enail and password.
+- Non-sql (Firebase Authentication, FirebaseFirestore) database for backend(not compeletd yet). 
+- designing the screens:( SignUp/ Sign In, Home, AddTask, ShowTasksScreen, Profile, onbourdingpages...etc).
 ---
 A few screens of MyPlanner Application:
 
@@ -34,10 +34,12 @@ A few screens of MyPlanner Application:
 
 ---
 ## Future work:
+- Backend Configuration with firebase completely.
 - kurdish UI for the application, chose by user.
+- verify your Email, forget password, new password 
 - Suggetion for templates and planning.
 - one week free trial for users.
-- backend improvements.
+- Questions and answers that make you more motivated, also see your andwers in scheduled (cloud Messaging with firebase).
 - Seggetion for meal plan and workout plan and accessing the laboratory for enteresting books...etc.
 
 
