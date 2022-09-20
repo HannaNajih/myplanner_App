@@ -11,7 +11,28 @@
  ---
  ## Details:
  - Application Design file: https://www.figma.com/file/ZpxIZMB7FPa5uNABHbZcdW/myplaner?node-id=0%3A1 
- 
+ ## Technologies that used:
+ - flutter:
+    sdk: flutter
+ - get_storage: ^2.0.3
+ - get: ^4.3.8
+ - flutter_local_notifications: ^8.2.0
+ - flutter_native_timezone: ^2.0.0
+ - intl: ^0.17.0
+ - google_fonts: ^2.1.0
+ - date_picker_timeline: ^1.2.3
+ - flutter_staggered_animations: ^1.0.0
+ - flutter_svg: ^0.22.0
+ - rxdart: ^0.27.2
+ - smooth_page_indicator: ^1.0.0+2
+ - intl_phone_field: ^3.1.0
+ - firebase_auth: ^3.9.0
+ - cloud_firestore: ^3.4.8
+ - firebase_core: ^1.22.0
+ - dwds: ^16.0.0
+ - flutter_svg_provider: ^0.1.10
+ - provider: ^6.0.3
+ - fluttertoast: ^8.0.9
  --
  ## TODO :
 
